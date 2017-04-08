@@ -1,9 +1,15 @@
 # ### Factors
-#
 # Write a method `factors(num)` that returns an array containing all the
 # factors of a given number.
 
 def factors(num)
+  factor_numbers = []
+  i = 1
+  while i <= num
+    factor_numbers << i if num % i == 0
+    i += 1
+  end
+  factor_numbers
 end
 
 # ### Bubble Sort
@@ -67,9 +73,21 @@ end
 # words).
 
 def substrings(string)
+  substrings_words = []
+  i = 0
+  while i < string.length
+    length = 1
+    while length <= string.length
+      substrings_words << string.slice(i,length)
+      length += 1
+    end
+    i += 1
+  end
+  substrings_words.uniq
 end
 
 def subwords(word, dictionary)
+  substrings(word).select { |word| dictionary.include?(word)}
 end
 
 # ### Doubler
@@ -77,6 +95,7 @@ end
 # array with the original elements multiplied by two.
 
 def doubler(array)
+  array.map {|number| number * 2 }
 end
 
 # ### My Each
@@ -104,6 +123,7 @@ end
 
 class Array
   def my_each(&prc)
+
   end
 end
 

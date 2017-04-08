@@ -1,3 +1,15 @@
+# using splat operator
+
+def eval_block(*args, &proc)
+  if proc.nil?
+    raise "NO BLOCK GIVEN"
+  else
+    proc.call(*args)
+  end
+end
+
+
+
 # ### `eval_block`
 #
 # Write an `eval_block` method that takes some arguments and a block. It should
@@ -44,4 +56,4 @@
 #
 # eval_block(1, 2, 3)
 # # => "NO BLOCK GIVEN"
-# ```
+# ``

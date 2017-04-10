@@ -53,9 +53,41 @@ end
 
 class Array
   def bubble_sort!
+    sorted = false
+    until sorted
+      sorted = true
+      each_index do |num_1|
+        next if num_1 + 1 == self.length
+        num_2 = num_1 + 1
+        if self[num_1] > self[num_2]
+          self[num_1], self[num_2] = self[num_2], self[num_1]
+          sorted = false
+        end
+      end
+    end
+    self
   end
 
-  def bubble_sort(&prc)
+  def bubble_sort!(&prc)
+    # sorting using procs
+    prc ||= Proc.new { |x, y| x <=> y }
+    sorted = false
+    until sorted
+      sorted = true
+      each_index do |i|
+        next if i + 1 == self.length
+        j = i + 1
+        if prc.call(self[i], self[j]) == 1
+          sorted = false
+          self[i], self[j] = self[j], self[i]
+        end
+      end
+    end
+    self
+  end
+
+  def bubble_sort(&proc)
+    self.dup.bubble_sort!(&proc)
   end
 end
 
@@ -122,8 +154,13 @@ end
 # ```
 
 class Array
-  def my_each(&prc)
-
+  def my_each(&proc)
+    idx = 0
+    while idx < self.length
+      proc.call(self[idx])
+      idx += 1
+    end
+    self
   end
 end
 
@@ -142,12 +179,21 @@ end
 
 class Array
   def my_map(&prc)
+    answer = []
+    my_each {|num| answer << prc.call(num)}
+    answer
   end
 
   def my_select(&prc)
+    answer =[]
+    my_each {|num| answer << num if prc.call(num) }
+    answer
   end
 
-  def my_inject(&blk)
+  def my_inject(&prc)
+    number = self.first
+    self.drop(1).my_each {|idx| number = prc.call(number, idx) }
+    number
   end
 end
 
@@ -161,4 +207,5 @@ end
 # ```
 
 def concatenate(strings)
+  strings.inject("") {|result, value| result + value }
 end
